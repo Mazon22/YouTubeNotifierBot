@@ -22,12 +22,17 @@ async def send_video_notification(channel_id, video_url):
     """ Функция, которая отправляет сообщение в указанный канал с ссылкой на новое видео. """
     try:
         channel = bot.get_channel(channel_id)
-        await channel.send(f"На канале вышло новое видео: {video_url}")
+        embed = disnake.Embed(
+            title="Новое видео на YouTube!",
+            description=f"Приятного просмотра!\nСсылка на видео: {video_url}\n\n||@everyone||",
+            color=disnake.Color.red()
+        )
+        await channel.send(embed=embed)
     except Exception as e:
         print(f"Не удалось отправить сообщение в канал {channel_id}: {e}")
 
 async def check_new_videos():
-    """ Периодически проверяет наличие новых видео на YouTube канале. """
+    """ Функция, которая периодически проверяет наличие новых видео на YouTube канале. """
     last_video_id = None
     while True:
         await asyncio.sleep(3600)  # Проверять каждый час
